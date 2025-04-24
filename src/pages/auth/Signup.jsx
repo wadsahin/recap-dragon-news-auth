@@ -1,35 +1,60 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../provider/AuthProvider";
 
 const Signup = () => {
+
+    const {signupUser} = useContext(AuthContext);
+
+    const handleSubmit = (e) =>{
+        e.preventDefault();
+        const form = e.target;
+        const name = form.name.value;
+        const photo = form.photo.value;
+        const email = form.email.value;
+        const password = form.password.value;
+        // console.log({name, photo, email, password})
+
+        // Create a new user
+        signupUser(email, password)
+        .then(result => {
+            console.log(result?.user);
+            // setUser(result.user);
+        })
+        .catch( err => {
+            console.log(err.code)
+        })
+
+    }
     return (
         <div className="card bg-base-100 w-full max-w-lg shrink-0 rounded-none mx-auto">
             <h2 className="text-2xl font-semibold text-center mt-5">Signup an account</h2>
-            <form className="card-body">
+            <form onSubmit={handleSubmit} className="card-body">
 
                 <div className="form-control">
                     <label className="label">
                         <span className="label-text">Name</span>
                     </label>
-                    <input type="text" placeholder="name" className="input input-bordered" required />
+                    <input type="text" name="name" placeholder="name" className="input input-bordered" required />
                 </div>
                 <div className="form-control">
                     <label className="label">
                         <span className="label-text">Photo URL</span>
                     </label>
-                    <input type="url" placeholder="photo url" className="input input-bordered" required />
+                    <input type="url" name="photo" placeholder="photo url" className="input input-bordered" required />
                 </div>
                 <div className="form-control">
                     <label className="label">
                         <span className="label-text">Email</span>
                     </label>
-                    <input type="email" placeholder="email" className="input input-bordered" required />
+                    <input type="email" name="email" placeholder="email" className="input input-bordered" required />
                 </div>
 
                 <div className="form-control">
                     <label className="label">
                         <span className="label-text">Password</span>
                     </label>
-                    <input type="password" placeholder="password" className="input input-bordered" required />
+                    <input type="password" name="password" placeholder="password" className="input input-bordered" required />
                 </div>
                 <div className="form-control mt-6">
                     <button className="btn btn-primary">Signup</button>
