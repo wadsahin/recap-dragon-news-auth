@@ -1,10 +1,11 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../provider/AuthProvider";
 
 const Signup = () => {
 
-    const {signupUser} = useContext(AuthContext);
+    const {signupUser, userProfileUpdate} = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const handleSubmit = (e) =>{
         e.preventDefault();
@@ -19,6 +20,14 @@ const Signup = () => {
         signupUser(email, password)
         .then(result => {
             console.log(result?.user);
+            userProfileUpdate({displayName: name, photoURL: photo})
+            .then(() =>{
+                console.log("Profile updated successfully");
+                navigate("/");
+            })
+            .catch(err =>{
+                console.log(err.code);
+            })
             // setUser(result.user);
         })
         .catch( err => {

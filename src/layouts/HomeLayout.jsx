@@ -4,12 +4,19 @@ import LatestNews from "../components/LatestNews";
 import LeftNavbar from "../components/layout-component/LeftNavbar";
 import RightNav from "../components/layout-component/RightNav";
 import Navbar from "../components/Navbar";
+import { useContext } from "react";
+import { AuthContext } from "../provider/AuthProvider";
+import Loading from "../pages/loading/Loading";
 
 const HomeLayout = () => {
+  const {loading} = useContext(AuthContext);
+
   return (
     <div className="font-poppins">
       <header>
         <Header></Header>
+        {/* loading spinner */}
+        {loading && <Loading></Loading>}
         <section className="w-11/12 mx-auto ">
           <LatestNews></LatestNews>
         </section>
